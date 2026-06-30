@@ -1,0 +1,30 @@
+# 远程 MCP: web_fetch（示例声明）
+# 实际 URL 替换为你的 MCP 服务端点
+
+name: web_fetch
+version: 1.0.0
+description: 通过 HTTP 获取网页内容
+
+source: mcp_http
+transport: http
+url: https://mcp.example.com/web_fetch
+
+mcp:
+  protocol: producer-mcp/1
+  skill: web_fetch
+
+params_schema:
+  type: object
+  required: [url]
+  properties:
+    url:
+      type: string
+      format: uri
+
+result_schema:
+  type: object
+  properties:
+    content: { type: string }
+    status_code: { type: integer }
+
+playbook: playbooks/mcp-remote.md

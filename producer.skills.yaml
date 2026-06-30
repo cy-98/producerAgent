@@ -1,0 +1,39 @@
+# 项目级 Skill Link 清单
+# 声明本 Producer 依赖的所有 skill（本地 + GitHub + 远程 MCP）
+# 安装/解析后生成 skills.lock
+
+version: 1
+
+skills:
+  # ── 本地 skill（文档在本仓库）────────────────────────────
+  - id: extract_actions
+    source: local
+    path: skills/extract_actions
+    manifest: skills/extract_actions/skill.yaml
+    doc: skills/extract_actions/SKILL.md
+
+  # ── GitHub 上的 skill（示例：替换为你的真实 repo）────────
+  - id: summarize
+    source: github
+    repo: your-org/producer-skills-hub
+    ref: v0.1.0
+    path: skills/summarize
+    manifest: skills/summarize/skill.yaml
+    # 安装后 doc 位于 .skills/cache/ 下，见 skills.lock
+
+  # ── 远程 HTTP MCP（不下载代码，直接调服务）────────────────
+  - id: web_fetch
+    source: mcp_http
+    url: https://mcp.example.com/web_fetch
+    manifest: mcp/remote/web_fetch.yaml
+    playbook: playbooks/mcp-remote.md
+
+  # ── 外部 stdio MCP Server（如官方 MCP 生态）──────────────
+  - id: github_issues
+    source: mcp_stdio
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-github"]
+    env:
+      - GITHUB_PERSONAL_ACCESS_TOKEN
+    adapter: mcp/adapters/github_mcp.md
+    playbook: playbooks/github.md

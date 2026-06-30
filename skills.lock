@@ -1,0 +1,19 @@
+# 已解析的 skill 锁定文件（由 link 流程生成/维护）
+# 请勿手改 ref，应通过更新 producer.skills.yaml 后重新 link
+
+version: 1
+resolved_at: null  # ISO-8601，link 后填入
+
+skills:
+  extract_actions:
+    id: extract_actions
+    source: local
+    ref: local
+  summarize:
+    id: summarize
+    source: github
+    repo: your-org/producer-skills-hub
+    ref: v0.1.0
+    resolved_ref: null  # link 后填入 commit SHA
+    cache_path: null    # 例: .skills/cache/your-org-producer-skills-hub@abc1234
+    doc: null           # 例: .skills/cache/.../skills/summarize/SKILL.md

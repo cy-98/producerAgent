@@ -1,15 +1,55 @@
-目录结构 / Repository structure
+# 目录结构
 
-建议的顶级目录（中文说明）：
+纯文本 Producer 仓库布局：
 
-- prompts/           — 存放所有基础 prompt 模板与 prompt 库（Markdown 格式）
-- skills/            — 可复用的 skill 实现（Python），每个 skill 单文件或包
-- mcp/               — Message / Control Protocol 说明与 schema（用于 agent 与技能/调度器之间通信）
-- workflows/         — 编排示例（以 Markdown 展示任务流程、step-by-step）
-- examples/          — 最小可运行示例脚本，展示如何把 prompts + skills 组合起来
-- docs/              — 架构与贡献指南、运行说明
-- tests/             — 单元测试（可选）
-- .gitignore
-- README.md
+```
+producer/
+  identity.md       Producer 人格与产出标准
+  principles.md     通用原则
+  routing.md        任务路由表
 
-当你采用 TypeScript/Node 时，可在 skills/ 下添加 TypeScript 实现，或创建 `runtimes/` 目录区分语言实现。
+playbooks/
+  github.md         GitHub 操作经验
+  link-skills.md    Link 外部 skill 流程
+  mcp-remote.md     远程 MCP 使用经验
+
+patterns/
+  meeting-to-tasks.md
+  link-remote-skill.md
+
+workflows/
+  meeting-to-tasks.md   会议 → 任务（完整 SOP）
+
+skills/
+  <name>/
+    skill.yaml      机器可读 manifest
+    SKILL.md        人类可读：何时用、MCP 示例
+  README.md         skill 索引
+
+mcp/
+  protocol.md       producer-mcp 协议
+  registry.yaml     能力注册表
+  skill_manifest.md manifest 字段约定
+  adapters/         外部 MCP 协议转换说明
+  remote/           远程 MCP 声明示例
+
+producer.skills.yaml   项目依赖的 skill 列表（link 入口）
+skills.lock            解析后的 commit / 缓存路径
+
+prompts/            LLM 模板
+examples/           示例输入（Markdown）
+docs/               架构与结构说明
+
+.skills/cache/      GitHub skill 缓存（gitignore，link 时生成）
+```
+
+## 已移除
+
+- `agent/` — 由 `producer/` 替代
+- `skills/*.py` — 能力改为纯文本 SKILL.md，由 Agent 执行
+- `examples/*.py` — 示例改为 workflow 文档驱动
+
+## 可选扩展
+
+- `CHANGELOG.md` — 记录 playbook / workflow 打磨历史
+- 更多 `mcp/adapters/` — 对接更多官方 MCP Server

@@ -1,0 +1,50 @@
+# MCP 能力注册表
+# Producer 的「全世界」——本地 skill、GitHub skill、远程 MCP 统一索引
+# 与 producer.skills.yaml 同步；registry 侧重运行时查询，producer.skills.yaml 侧重声明依赖
+
+version: 1
+
+protocol: producer-mcp/1
+protocol_doc: mcp/protocol.md
+
+skills:
+  extract_actions:
+    type: local
+    doc: skills/extract_actions/SKILL.md
+    manifest: skills/extract_actions/skill.yaml
+    transport: in_process
+    tags: [markdown, parsing, tasks]
+
+  summarize:
+    type: github
+    repo: your-org/producer-skills-hub
+    ref: v0.1.0
+    path: skills/summarize
+    transport: in_process
+    tags: [text, nlp]
+    playbook: playbooks/link-skills.md
+
+  web_fetch:
+    type: mcp_http
+    url: https://mcp.example.com/web_fetch
+    transport: http
+    tags: [web, fetch]
+    playbook: playbooks/mcp-remote.md
+
+  github_issues:
+    type: mcp_stdio
+    package: "@modelcontextprotocol/server-github"
+    transport: stdio
+    adapter: mcp/adapters/github_mcp.md
+    tags: [github, issues]
+    playbook: playbooks/github.md
+
+# 按场景快速查找
+indexes:
+  by_tag:
+    markdown: [extract_actions]
+    github: [github_issues]
+    web: [web_fetch]
+  by_pattern:
+    meeting-to-tasks: [extract_actions]
+    link-remote-skill: [summarize]

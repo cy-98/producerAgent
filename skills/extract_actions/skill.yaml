@@ -1,0 +1,34 @@
+name: extract_actions
+version: 1.0.0
+description: 从 Markdown 提取待办行动项（checkbox 与短句启发式）
+
+runtime: agent
+entrypoint: handle
+
+mcp:
+  protocol: producer-mcp/1
+  skill: extract_actions
+
+params_schema:
+  type: object
+  required: [markdown]
+  properties:
+    markdown:
+      type: string
+      description: 输入 Markdown 文本
+
+result_schema:
+  type: object
+  properties:
+    actions:
+      type: array
+      items:
+        type: object
+        properties:
+          title: { type: string }
+          done: { type: boolean }
+          assignee: { type: string, nullable: true }
+          due: { type: string, nullable: true }
+          raw: { type: string }
+
+tags: [markdown, parsing, tasks]
